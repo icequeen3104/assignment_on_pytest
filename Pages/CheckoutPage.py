@@ -11,8 +11,12 @@ class CheckoutPage:
         self.finish_btn = "#finish"
 
         self.summary_items = ".inventory_item_name"
-        self.summary_total = ".summary_total_label"
+        self.item_total = ".summary_subtotal_label"
+        self.tax = ".summary_tax_label"
+        self.total = ".summary_total_label"
+
         self.confirm_msg = ".complete-header"
+        self.order_number = ".complete-text"
 
     def fill_shipping_details(self):
         self.page.fill(self.first_name, "Saujanya")
@@ -23,8 +27,16 @@ class CheckoutPage:
     def get_summary_items(self):
         return self.page.locator(self.summary_items).all_inner_texts()
 
-    def get_total_amount(self):
-        text = self.page.locator(self.summary_total).inner_text()
+    def get_item_total(self):
+        text = self.page.locator(self.item_total).inner_text()
+        return float(text.replace("Item total: $", ""))
+
+    def get_tax(self):
+        text = self.page.locator(self.tax).inner_text()
+        return float(text.replace("Tax: $", ""))
+
+    def get_total(self):
+        text = self.page.locator(self.total).inner_text()
         return float(text.replace("Total: $", ""))
 
     def complete_order(self):
@@ -32,3 +44,6 @@ class CheckoutPage:
 
     def get_confirmation_message(self):
         return self.page.locator(self.confirm_msg).inner_text()
+
+    def get_order_text(self):
+        return self.page.locator(self.order_number).inner_text()
